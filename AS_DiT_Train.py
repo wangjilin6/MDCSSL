@@ -193,8 +193,6 @@ def AS_DiT_train(args):
             hook.remove()
 
             loss = loss_dict["loss"][0:batch_size].mean()
-            # 增强分支-实验证明没有带来性能提升，反而下降了
-            # loss += ((features[:batch_size] - features[batch_size:]) ** 2).mean()
             features = reduction_net(features)
             loss += info_nce_loss(features[:batch_size].reshape(batch_size, -1),
                                   features[batch_size:].reshape(batch_size, -1), batch_size, temperature=0.5)
@@ -242,3 +240,4 @@ if __name__ == '__main__':
     parser.add_argument('--flag', default=False, type=bool, help='是否微调')
     args = parser.parse_args()
     AS_DiT_train(args)
+
